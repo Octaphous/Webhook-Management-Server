@@ -31,6 +31,7 @@ app.post("/", (req, res) => {
             });
         });
     });
+    res.end();
 });
 
 app.listen(config.http_port, () => console.log("Server open on port " + config.http_port));
