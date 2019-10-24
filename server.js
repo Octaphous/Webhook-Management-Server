@@ -1,21 +1,19 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const crypto = require("crypto");
 const childProcess = require("child_process");
 const webhooks = require("./webhooks.json");
 const config = require("./config.json");
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
 
 app.post("/", (req, res) => {
-    let branch = req.body.ref ? req.body.ref.split("/")[req.body.ref.split("/").length - 1] : undefined;
     req.on("data", chunk => {
+        let body = JSON.parse(chunk);
+        let branch = body.ref ? body.ref.split("/")[body.ref.split("/").length - 1] : undefined;
         webhooks.forEach(webhook => {
             if (webhook.rules.event && webhook.rules.event != req.headers["x-github-event"]) return;
-            if (webhook.rules.repository && webhook.rules.repository != req.body.repository.name) return;
-            if (webhook.rules.pusher && webhook.rules.pusher != req.body.pusher.name) return;
+            if (webhook.rules.repository && webhook.rules.repository != body.repository.name) return;
+            if (webhook.rules.pusher && webhook.rules.pusher != body.pusher.name) return;
             if (webhook.rules.branch && webhook.rules.branch != branch) return;
             if (webhook.rules.secret) {
                 let sig = "sha1=" + crypto.createHmac("sha1", webhook.rules.secret).update(chunk.toString()).digest("hex");
