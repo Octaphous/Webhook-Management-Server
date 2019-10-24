@@ -1,0 +1,13 @@
+[
+    {
+        "rules": {
+            "event": "push",
+            "secret": "b268e836e2e9dac57dce14eb7c81351603e30a0a9c7d8585c2d24a11bafc86f4",
+            "branch": "developments",
+            "repository": "Tusent.io",
+            "pusher": "Octaphous"
+        },
+        "directory": "C:\\Users\\Gizmo\\Kompost\\Projekt\\Web development\\RepoSync-PM2",
+        "command": "mkdir EyyyFolder"
+    }
+]
